@@ -10,13 +10,13 @@ const Settings = ({ userId }: SettingsProps) => {
   const [settings, setSettings] = useState({ github: true, gitlab: true, bitbucket: true });
 
   useEffect(() => {
-    fetch(`/api/push-settings/get?userId=${userId}`)
+    fetch(`/api/settings/get?userId=${userId}`)
       .then((res) => res.json())
       .then((data) => setSettings(data || settings));
   }, [userId]);
 
   const updateSettings = async () => {
-    await fetch('/api/push-settings/update', {
+    await fetch('/api/settings/update', {
       method: 'POST',
       body: JSON.stringify({ userId, ...settings }),
       headers: { 'Content-Type': 'application/json' }
