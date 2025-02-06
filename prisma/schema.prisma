@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String                  @id @default(uuid())
+  email        String                  @unique
+  password     String?
+  pushToken    String?
+  services     Service[]
+  preferences  NotificationPreference?
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+  Notification Notification[]
+}
+
+model Service {
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  provider    String
+  providerId  String   @unique
+  accessToken String
+  createdAt   DateTime @default(now())
+}
+
+model Notification {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  type       String
+  title      String
+  message    String
+  repository String
+  createdAt  DateTime @default(now())
+}
+
+model NotificationPreference {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @unique
+  github    Boolean  @default(true)
+  gitlab    Boolean  @default(true)
+  bitbucket Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

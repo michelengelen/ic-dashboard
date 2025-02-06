@@ -1,0 +1,29 @@
+{
+  "name": "ic-dashboard",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun next dev",
+    "build": "bun next build",
+    "start": "bun next start"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@types/bun": "latest",
+    "@types/react": "^19.0.8",
+    "eslint": "^9.19.0",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^15.14.0",
+    "typescript-eslint": "^8.23.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.3.1",
+    "axios": "^1.7.9",
+    "firebase": "^11.2.0",
+    "firebase-admin": "^13.0.2",
+    "next-auth": "^4.24.11"
+  }
+}
