@@ -1,15 +1,23 @@
-'use client';
-import React from 'react';
-import axios from '@/lib/axios.ts';
-import useSWR from 'swr';
-import type { AxiosRequestConfig } from 'axios';
+"use client";
+import React from "react";
+import axios from "@/lib/axios.ts";
+import useSWR from "swr";
+import type { AxiosRequestConfig } from "axios";
 
-const fetcher = ({ url, options }: { url: string; options: AxiosRequestConfig }) =>
-  axios.get(url, options).then((res) => res.data);
+const fetcher = ({
+  url,
+  options,
+}: {
+  url: string;
+  options: AxiosRequestConfig;
+}) => axios.get(url, options).then((res) => res.data);
 
-export default async function Dashboard() {
+export default function Dashboard() {
   const { data, error, isLoading } = useSWR(
-    { url: '/issues', options: { method: 'GET', params: { owner: 'mui', repo: 'mui-x' } } },
+    {
+      url: "/issues",
+      options: { method: "GET", params: { owner: "mui", repo: "mui-x" } },
+    },
     fetcher,
   );
 
