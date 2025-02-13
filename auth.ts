@@ -12,8 +12,8 @@ export const authOptions: NextAuthConfig = {
   providers: [GitHub],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: 'database'
-  }
+    strategy: 'jwt',
+  },
 };
 
 export const { handlers, signIn, signOut, auth } = NextAuth(authOptions);

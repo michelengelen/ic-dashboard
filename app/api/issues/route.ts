@@ -1,20 +1,28 @@
-import prisma from '@/lib/prisma';
-import axios from 'axios';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { auth } from '@/auth.ts';
+import { type Account, retrieveAccount } from '@/lib/prisma.ts';
+import { getOctokit } from '@/lib/github.ts';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
-  const { userId } = req.query as { userId: string };
-  const services = await prisma.service.findMany({ where: { userId } });
+export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams;
+  const owner = searchParams.get('owner');
+  const repo = searchParams.get('repo');
 
-  const results = await Promise.all(
-    services.map((service) =>
-      axios
-        .get(`https://api.${service.provider.toLowerCase()}.com/issues`, {
-          headers: { Authorization: `Bearer ${service.accessToken}` }
-        })
-        .then((res) => res.data)
-    )
-  );
+  if (!owner || !repo) {
+    return NextResponse.error();
+  }
 
-  res.json(results.flat());
+  const session = await auth();
+  const account: Account = await retrieveAccount({
+    where: { userId: session?.user?.id, provider: 'github' },
+  });
+
+  if (!account?.access_token) {
+    return NextResponse.error();
+  }
+
+  const octokit = getOctokit(account.access_token);
+  const { data } = await octokit.issues.listForRepo({ owner, repo });
+
+  return NextResponse.json(data);
 }
