@@ -12,7 +12,6 @@
         "@mui/x-data-grid-premium": "^7.26.0",
         "@mui/x-license": "^7.26.0",
         "@octokit/rest": "^21.1.0",
-        "@octokit/types": "^13.8.0",
         "@prisma/client": "^6.3.1",
         "axios": "^1.7.9",
         "next-auth": "^5.0.0-beta.25",

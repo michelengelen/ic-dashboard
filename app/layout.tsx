@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Box, CssBaseline, Toolbar } from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
 import { SessionProvider } from "next-auth/react";
 import Drawer from "@/components/root.drawer";
 import RootMUiLicense from "@/components/root.MUiLicense.tsx";
+import RootAppbar from "@/components/root.appbar.tsx";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,13 +11,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <RootMUiLicense />
         <SessionProvider>
+          <RootAppbar />
           <Box sx={{ display: "flex" }}>
             <CssBaseline />
-            <Drawer />
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-              <Toolbar />
+            <Drawer>
               {children}
-            </Box>
+            </Drawer>
           </Box>
         </SessionProvider>
       </body>
